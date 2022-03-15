@@ -1,0 +1,57 @@
+class TovarModel:
+    def __init__(self, connection):
+        self.connection = connection
+
+
+    def init_table(self):
+        cursor = self.connection.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS tovars 
+                                (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                 img  VARCHAR(100),
+                                 title VARCHAR(100),
+                                 content VARCHAR(1000),
+                                 year VARCHAR(100),
+                                 name VARCHAR(100)
+                                 )''')
+        cursor.close()
+        self.connection.commit()
+
+
+    def insert(self, img, title, content, year, name):
+        cursor = self.connection.cursor()
+        cursor.execute('''INSERT INTO tovars (img, title, content, year, name) 
+                      VALUES (?,?,?,?,?)''', (img, title, content, str(year), name))
+        cursor.close()
+        self.connection.commit()
+
+
+    def get_all(self):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM tovars")
+        rows = cursor.fetchall()
+        return rows
+
+
+    def delete(self, tovar_id):
+        cursor = self.connection.cursor()
+        cursor.execute('''DELETE FROM tovars WHERE id = ?''', (str(tovar_id),))
+        cursor.close()
+        self.connection.commit()
+
+    def exists(self, title, name):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM tovars WHERE title = ? AND name = ?",
+                       (title, name))
+        row = cursor.fetchone()
+        if row:
+            return True
+        else:
+            return False
+
+    def is_title_busy(self, title):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM tovars WHERE title = '{}'".format(str(title)))
+        row = cursor.fetchone()
+        if row:
+            return True
+        return False

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заявки</title>
+</head>
+<body>
+    {% for item in tovars['purchase'] %}
+        <h2>{{item["title"]}}</h2>
+        <div>{{item["content"]}}</div>
+    {% endfor %}
+</body>
+</html>

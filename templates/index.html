@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if username in admins %}
+    {% for item in purchases %}
+{% if item in adm_n %}
+<div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">{{item[2]}}</h4>
+            <p>{{item[3]}}</p>
+        <h6 style="color:blue">Своя заявка</h6>
+              <hr>
+            <p class="mb-0">{{item[1]}}</p>
+            <a href="/delete_purchases/{{item[0]}}">Удалить покупку</a>
+        </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">{{item[2]}}</h4>
+            <p>{{item[3]}}</p>
+    <h6 style="color:blue">USER ID: {{item[4]}} </h6>
+              <hr>
+            <p class="mb-0">{{item[1]}}</p>
+            <a href="/delete_purchases/{{item[0]}}">Удалить покупку</a>
+        </div>
+{% endif %}
+    {% endfor %}
+{% else %}
+    {% for item in purchases %}
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">{{item[2]}}</h4>
+             <p>{{item[3]}}</p>
+              <hr>
+             <p class="mb-0">{{item[1]}}</p>
+            <a href="/delete_purchases/{{item[0]}}">Удалить покупку</a>
+        </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}
